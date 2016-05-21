@@ -2,11 +2,14 @@ html, body {
     max-width: 100%;
     overflow-x: hidden;
 }
-.desert{
-    height:1000px;
+#desert{
+}
+.jscroll-inner {
+  overflow: hidden;
 }
 .container{
     height:800px;
+    overflow: hidden;
 }
 .word{
     position:relative;

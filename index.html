@@ -1,0 +1,72 @@
+<head>
+    <title>desert</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.jscroll/2.2.4/jquery.jscroll.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="desert.css">
+    <link rel="icon" href="moon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <div id="desert">
+        <div class="sunset">
+        </div>
+        <a href="legs.html"></a>
+    </div>
+    <script type="text/javascript">
+        var elemnum = 1;
+        var chunknum = 1;
+        var min_x = 0;
+        var max_x = screen.width;
+        var min_y = 0;
+        var max_y = 1000;
+
+        var min_particles = 10;
+        var max_particles = 30;
+        var particle_type = ['.','.',',','*'];
+        var particle_class = ['sandred','sandred','sandyellow','rockgrey','rockbrown'];
+
+        function shuffle(array) {
+          var currentIndex = array.length, temporaryValue, randomIndex;
+          while (0 !== currentIndex) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+          }
+          return array;
+        }
+
+
+        $(document).ready(function() {
+            $('#desert').jscroll({
+                padding: 50,
+                callback: function(){
+                    var asciiGroup = document.createElement('div');
+                    asciiGroup.setAttribute("class", "container " + "c"+chunknum);
+                    document.body.appendChild(asciiGroup);
+                    chunknum += 1;
+                    var desertimages = shuffle(['<pre class=\"preword cactusdark\">\n      ,`\"\"\',\n      ;\' ` ;\n      ;`   ;\n      ;\' ` ;\n ,,,  ;` \' ;\n; ` ; ;\' ` ;   ,\',\n;` \'; ;` \' ;  ; \' ;\n;\' `; ;` \' ; ;`\'`\';\n;` \'\',\'\'` `,\' `\',;\n `\'\'`\'; \'  ;`\'`\'\n      ;\' `\';\n      ;` \' ;\n      ;\' `\';\n      ;` \' ;\n      ; \' \';\n      ; \' \';\n<\/pre>','<pre class=\"preword cactusbright\">\n         \/|\\\n        |||||\n    \/\\  |||||\n   |||| |||||\n   |||| |||||  \/\\\n   |||| ||||| ||||\n    \\|`-\'|||| ||||\n     \\__ |||| ||||\n        ||||`-\'|||\n        |||| ___\/\n        |||||\n        |||||\n        `---\'\n<\/pre>','<pre class=\"preword shrubdust\">\n  _____\n \/ \/|\\ \\\n| | | | |\n \\_\\|\/_\/<\/pre>','<pre class=\"preword bone\">\n\\\\---\/\/\n=\\ oo|=\n  \\..|<\/pre>','<pre class=\"word shrubyellow\">\\|\/<\/pre>','<pre class=\"word shrubdust\">\\ \/<\/pre>','<pre class=\"word rockgrey\">\n    _\n  \/_\\_\\<\/pre>']);
+                    for (var c in desertimages) {
+                        var newElement = document.createElement('div');
+                        newElement.setAttribute("class", "word " + elemnum);
+                        newElement.innerHTML = desertimages[c];
+                        newElement.style.left = Math.floor(Math.random() * (max_x - min_x + 1)) + min_x;
+                        //newElement.style.top = Math.floor(Math.random() * (max_y - min_y + 1)) + min_y;
+                        asciiGroup.appendChild(newElement);
+                        elemnum += 1;
+                    }
+                    var particles = Math.floor(Math.random() * (max_particles - min_particles + 1)) + min_particles;
+                    for(count = 0; count < particles; count++){
+                        var newElement = document.createElement('div');
+                        newElement.innerHTML = particle_type[Math.floor(Math.random()*particle_type.length)];
+                        newElement.setAttribute("class", "word " + particle_class[Math.floor(Math.random()*particle_type.length)]);
+                        newElement.style.left = Math.floor(Math.random() * (max_x - min_x + 1)) + min_x;
+                        newElement.style.top = Math.floor(Math.random() * (0 - 800 + 1));
+                        asciiGroup.appendChild(newElement);
+                    }
+                }
+            });
+        });
+    </script>
+</body>

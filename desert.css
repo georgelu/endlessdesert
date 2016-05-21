@@ -1,0 +1,51 @@
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+.desert{
+    height:1000px;
+}
+.container{
+    height:800px;
+}
+.word{
+    position:relative;
+}
+
+.preword{
+    position:relative;
+}
+
+.bone{
+    color: #e3dac9;
+}
+.cactusdark{
+    color:#00cc33;
+}
+.cactusbright{
+    color:#BDECB6;
+}
+.needleyellow{
+    color:#FDFD96;
+}
+.needlekhaki{
+    color:#EEE8AA;
+}
+.sandred{
+    color:#C65D57;
+}
+.sandyellow{
+    color:#FFB347;
+}
+.shrubyellow{
+    color:#A3B56D;
+}
+.shrubdust{
+    color:#A3B56D;
+}
+.rockgrey{
+    color:#8B8D7A;
+}
+.rockbrown{
+    color:#F4A460;
+}

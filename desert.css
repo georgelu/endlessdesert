@@ -3,6 +3,7 @@ html, body {
     overflow-x: hidden;
 }
 #desert{
+    height:100%;
 }
 .jscroll-inner {
   overflow: hidden;
@@ -17,6 +18,7 @@ html, body {
 
 .preword{
     position:relative;
+    font-weight: bold;
 }
 
 .bone{

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 
 <head>
-    <title>desert</title>
+    <title>onwards and onwards</title>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.jscroll/2.2.4/jquery.jscroll.min.js"></script>
+    <script   src="https://code.jquery.com/color/jquery.color.plus-names-2.1.2.min.js"   integrity="sha256-Wp3wC/dKYQ/dCOUD7VUXXp4neLI5t0uUEF1pg0dFnAE="   crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="desert.css">
     <link rel="icon" href="moon.ico" type="image/x-icon">
 </head>
@@ -39,11 +40,15 @@
           }
           return array;
         }
-
-
+        function colorshift(start_color, final_color, base_elems, scroll_number) {
+            var scroll_per = ((scroll_number%base_elems)/75).toPrecision(2);
+            var newRed = start_color.red() + ( ( final_color.red() - start_color.red() ) * scroll_per );
+            var newGreen = start_color.green() + ( ( final_color.green() - start_color.green() ) * scroll_per );
+            var newBlue = start_color.blue() + ( ( final_color.blue() - start_color.blue() ) * scroll_per );
+            return newColor = new $.Color( newRed, newGreen, newBlue);
+        }
         $(document).ready(function() {
             $('#desert').jscroll({
-                debug:true,
                 padding:800,
                 callback: function(){
                     var asciiGroup = document.createElement('div');
@@ -52,14 +57,39 @@
                     chunknum += 1;
                     var desertimages = shuffle(['<pre class=\"preword cactusdark\">\n      ,`\"\"\',\n      ;\' ` ;\n      ;`   ;\n      ;\' ` ;\n ,,,  ;` \' ;\n; ` ; ;\' ` ;   ,\',\n;` \'; ;` \' ;  ; \' ;\n;\' `; ;` \' ; ;`\'`\';\n;` \'\',\'\'` `,\' `\',;\n `\'\'`\'; \'  ;`\'`\'\n      ;\' `\';\n      ;` \' ;\n      ;\' `\';\n      ;` \' ;\n      ; \' \';\n      ; \' \';\n<\/pre>','<pre class=\"preword cactusbright\">\n         \/|\\\n        |||||\n    \/\\  |||||\n   |||| |||||\n   |||| |||||  \/\\\n   |||| ||||| ||||\n    \\|`-\'|||| ||||\n     \\__ |||| ||||\n        ||||`-\'|||\n        |||| ___\/\n        |||||\n        |||||\n        `---\'\n<\/pre>','<pre class=\"preword shrubdust\">\n  _____\n \/ \/|\\ \\\n| | | | |\n \\_\\|\/_\/<\/pre>','<pre class=\"preword bone\">\n\\\\---\/\/\n=\\ oo|=\n  \\..|<\/pre>','<pre class=\"word shrubyellow\">\\|\/<\/pre>','<pre class=\"word shrubdust\">\\ \/<\/pre>','<pre class=\"word rockgrey\">\n    _\n  \/_\\_\\<\/pre>']);
                     for (var c in desertimages) {
+                        //add the ascii art
                         var newElem = document.createElement('div');
                         newElem.setAttribute("class", "word " + elemnum);
                         newElem.innerHTML = desertimages[c];
-                        newElem.style.left = Math.floor(Math.random() * (max_x - min_x + 1)) + min_x + 'px';
-                        //newElement.style.top = Math.floor(Math.random() * (max_y - min_y + 1)) + min_y;
                         asciiGroup.appendChild(newElem);
+                        newElem.style.left = Math.floor(Math.random() * (max_x - min_x + 1)) + min_x + 'px';
+
+                        //color shenanigans
+                        var colorvalue = Math.floor(Math.random()*2);
+                        var darkness = ['rgb(34,7,153)','rgb(51,11,91)','rgb(39,86,112)'];
+                        var hope = ['rgb(253,91,53)','rgb(255,182,193)','rgb(255,156,103)'];
+
+                        var midnight_color = new $.Color( darkness[colorvalue] );
+                        var dusk_color = new $.Color( hope[colorvalue] );
+                        var begin_color = new $.Color($('.'+elemnum).children().css("color"));
+
+                        var scroll_number = elemnum % 600;
+
+                        if (scroll_number > 300 && scroll_number <= 375){ //day ->sunset
+                            var newColor = colorshift(begin_color,dusk_color,300,scroll_number);
+                        } else if (scroll_number > 375 && scroll_number <=450){ //sunset to midnight
+                            var newColor = colorshift(dusk_color,midnight_color,375,scroll_number);
+                        } else if (scroll_number > 450 && scroll_number <=525){ //midnight to dawn
+                            var newColor = colorshift(midnight_color,dusk_color,450,scroll_number);
+                        } else if (scroll_number > 525 && scroll_number <=600){//dawn to day
+                            var newColor = colorshift(dusk_color,begin_color,525,scroll_number);
+                        }
+                        $('.'+elemnum).children().css( "color",newColor);
+
                         elemnum += 1;
                     }
+
+                    //add random dust particle
                     var particles = Math.floor(Math.random() * (max_particles - min_particles + 1)) + min_particles;
                     for(count = 0; count < particles; count++){
                         var newElem2 = document.createElement('div');
@@ -69,12 +99,12 @@
                         newElem2.style.top = Math.floor(Math.random() * (0 - 800 + 1)) + 'px';
                         asciiGroup.appendChild(newElem2);
                     }
+                /* optional hack to reset infinite scroll
                     var newElem3 = document.createElement('div');
                     newElem3.style.clear = 'both';
-                    asciiGroup.appendChild(newElem3);
+                    asciiGroup.appendChild(newElem3);*/
                 }
             });
         });
     </script>
-    
 </body>
